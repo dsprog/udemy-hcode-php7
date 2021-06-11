@@ -6,8 +6,10 @@ $app->config('debug', true);
 $app->get('/', function() {
 	$sql = new \Dsprog\DB\Sql();
     $rows = $sql->select("SELECT * FROM tb_users");
+    //(new \Dsprog\Tools())->convertArraytoJson($rows);
 
-    (new \Dsprog\Tools())->convertArraytoJson($rows);
+    $page = new \Dsprog\Page();
+    $page->setView('index');
 });
 
 $app->run();
