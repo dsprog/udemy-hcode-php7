@@ -1,11 +1,13 @@
-<?php 
-
+<?php
 require_once("vendor/autoload.php");
 
 $app = new \Slim\Slim();
 $app->config('debug', true);
 $app->get('/', function() {
-	echo "OK";
+	$sql = new \Dsprog\DB\Sql();
+    $rows = $sql->select("SELECT * FROM tb_users");
+
+    (new \Dsprog\Tools())->convertArraytoJson($rows);
 });
 
 $app->run();
