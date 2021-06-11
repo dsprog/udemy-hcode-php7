@@ -12,12 +12,12 @@ class Page
         "data"=>[]
     ];
 
-    public function __construct($opts = [])
+    public function __construct($opts = [], $tpl_dir = 'site')
     {
         $this->options = array_merge($this->defaults, $opts);
         $config = array(
-            "tpl_dir"       =>  __DIR__ . "/../views/templates/site/",
-            "cache_dir"     => __DIR__ . "/../views/cache/site/",
+            "tpl_dir"       =>  __DIR__ . "/../views/{$tpl_dir}/",
+            "cache_dir"     => __DIR__ . "/../views/cache/{$tpl_dir}/",
             "debug"         => false
         );
         Tpl::configure( $config );
