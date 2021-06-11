@@ -2,6 +2,7 @@
 
 namespace Dsprog\Models;
 
+use Dsprog\DB\Sql;
 use Dsprog\DB\Model;
 use Exception;
 
@@ -11,15 +12,18 @@ class User extends Model
 
     public static function login($user, $pass)
     {
-        $result = parent::select("SELECT * FROM tb_users WHERE user=:LOGIN", [":LOGIN"=>$user]);
-
+        $result = (new Sql())->select("SELECT * FROM tb_users");
+        
         if (count($result) === 0){
             throw new Exception('Usuário ou senha inválidos!', 1);
         }
 
-        if (password_verify($pass, $result[0]['despassword']) === true){
+        $data = $result[0];
+        if (password_verify($pass, $data['despassword']) === true){
             $user = new User();
-            $user->setData($result[0]);
+            unset($data['despassword']);
+
+            $user->setData($data);
 
             $_SESSION[User::SESSION] = $user->getValues();
             
@@ -45,6 +49,6 @@ class User extends Model
 
     public static function logout()
     {
-        session_unset($_SESSION[User::SESSION]);
+        unset($_SESSION[User::SESSION]);
     }
 }

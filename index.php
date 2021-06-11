@@ -15,7 +15,6 @@ $app->get('/', function() {
 $app->get('/admin', function() {
 
     \Dsprog\Models\User::verifyLogin();
-
     $admin = new \Dsprog\PageAdmin();
     $admin->setView('index');
 });
@@ -26,8 +25,7 @@ $app->get('/admin/login', function() {
 });
 
 $app->post('/admin/login', function() {
-    \Dsprog\Models\User::login($_POST['login'], $_POST['password']);
-    
+    \Dsprog\Models\User::login($_POST['deslogin'], $_POST['despassword']);    
     header('location: /admin');
     exit;
 });
